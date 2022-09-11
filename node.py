@@ -1,10 +1,11 @@
-import pptree
+import uuid
 
 from matrix import Matrix
 
 class Node(object):
 
     def __init__(self, matrix, target,  parent=None, children=None):
+        self.uuid = uuid.uuid1()
         self.matrix = matrix
         self.target = target
         self.parent = parent
@@ -32,23 +33,20 @@ class Node(object):
             return 1 + self.parent.depth
 
     def get_value(self):
-        return self.depth + 3 * self.different
+        return self.depth + 4 * self.different
 
     def add_child(self, node):
         node.parent = self
         assert isinstance(node, Node)
         self.children.append(node)
 
-    def disp(self):
-        pptree.print_tree(self, 'children', 'matrix')
-
     def __lt__(self, other):
         return self.get_value() < other.get_value()
 
     def __repr__(self):
-        return '\n'.join([''.join(['{:4}'.format(item) for item in row]) 
+        return '\n'.join(['  '.join([str(item) for item in row]) 
                         for row in self.matrix.array])
 
     def __str__(self):
-        return '\n'.join([''.join(['{:4}'.format(item) for item in row]) 
+        return '\n'.join(['  '.join([str(item) for item in row]) 
                         for row in self.matrix.array])

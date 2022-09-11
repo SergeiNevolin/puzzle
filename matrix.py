@@ -1,4 +1,5 @@
 import copy
+from sqlite3 import Row
 
 class Matrix:
     def __init__(self, array, last_empty_position = None):
@@ -14,25 +15,25 @@ class Matrix:
         children = []
         empty_pos = self.get_empty_position()
 
-        if empty_pos[0] > 0 and empty_pos != self.last_empty_position:
+        if empty_pos[0] > 0 and (empty_pos[0] - 1, empty_pos[1]) != self.last_empty_position:
             temp = copy.deepcopy(self.array)
             temp[empty_pos[0]][empty_pos[1]] = temp[empty_pos[0] - 1][empty_pos[1]]
             temp[empty_pos[0] - 1][empty_pos[1]] = '-'
             children.append(Matrix(temp, empty_pos))
 
-        if empty_pos[0] < len(self.array) - 1 and empty_pos != self.last_empty_position:
+        if empty_pos[0] < len(self.array) - 1 and (empty_pos[0] + 1, empty_pos[1]) != self.last_empty_position:
             temp = copy.deepcopy(self.array)
             temp[empty_pos[0]][empty_pos[1]] = temp[empty_pos[0] + 1][empty_pos[1]]
             temp[empty_pos[0] + 1][empty_pos[1]] = '-'
             children.append(Matrix(temp, empty_pos))
 
-        if empty_pos[1] > 0 and empty_pos != self.last_empty_position:
+        if empty_pos[1] > 0 and (empty_pos[0], empty_pos[1] - 1) != self.last_empty_position:
             temp = copy.deepcopy(self.array)
             temp[empty_pos[0]][empty_pos[1]] = temp[empty_pos[0]][empty_pos[1] - 1]
             temp[empty_pos[0]][empty_pos[1] - 1] = '-'
             children.append(Matrix(temp, empty_pos))
 
-        if empty_pos[1] < len(self.array[0]) - 1 and empty_pos != self.last_empty_position:
+        if empty_pos[1] < len(self.array[0]) - 1 and (empty_pos[0], empty_pos[1] + 1) != self.last_empty_position:
             temp = copy.deepcopy(self.array)
             temp[empty_pos[0]][empty_pos[1]] = temp[empty_pos[0]][empty_pos[1] + 1]
             temp[empty_pos[0]][empty_pos[1] + 1] = '-'
@@ -51,7 +52,11 @@ class Matrix:
         return different
 
     def __repr__(self):
-        return '\n'.join([''.join(['{:4}'.format(item) for item in row]) 
+        return '\n'.join(['  '.join([str(item) for item in row]) 
+                        for row in self.array])
+
+    def __str__(self):
+        return '\n'.join(['  '.join([str(item) for item in row]) 
                         for row in self.array])
 
     def __len__(self):
