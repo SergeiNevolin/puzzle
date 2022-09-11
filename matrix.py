@@ -1,5 +1,4 @@
 import copy
-from sqlite3 import Row
 
 class Matrix:
     def __init__(self, array, last_empty_position = None):

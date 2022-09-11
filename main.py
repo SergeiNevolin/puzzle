@@ -1,4 +1,3 @@
-from platform import node
 from node import Node
 from tree import Tree
 from matrix import Matrix
@@ -8,7 +7,7 @@ from matrix import Matrix
 #     ['2', '4', '3'],
 #     ['1', '8', '5'],
 #     ['7', '-', '6']
-# ], (-1, -1))
+# ])
 
 # target = Matrix([   
 #     ['1', '2', '3'],
